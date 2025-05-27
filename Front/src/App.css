@@ -1,0 +1,190 @@
+.app-container {
+  text-align: center;
+}
+
+.logo-container {
+  margin-bottom: 2rem;
+}
+
+.logo {
+  max-width: 40%;
+  width: 100%;
+  height: auto;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.suggestions-box {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.suggestions-box a {
+  cursor: pointer;
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Filter Toggle Button */
+.filter-toggle-button {
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.filter-toggle-button:hover {
+  background-color: var(--primary-hover-color);
+  box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+/* Filters Section */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 15px;
+  background-color: var(--filter-bg-color);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px var(--shadow-color);
+  animation: fadeIn 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-group label {
+  font-size: 14px;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.filter-group select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg-color);
+  font-size: 14px;
+  transition: border-color 0.3s;
+  color: var(--text-color);
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--focus-shadow-color);
+}
+
+/* Animation for filters */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Theme Variables - Light (default) */
+:root {
+  --primary-color: #4285f4;
+  --primary-hover-color: #3367d6;
+  --button-text-color: #ffffff;
+  --filter-bg-color: #f8f9fa;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --text-color: #333333;
+  --border-color: #dddddd;
+  --input-bg-color: #ffffff;
+  --focus-shadow-color: rgba(66, 133, 244, 0.2);
+}
+
+/* Dark Theme Overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #8ab4f8;
+    --primary-hover-color: #669df6;
+    --button-text-color: #202124;
+    --filter-bg-color: #2d2d2d;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --text-color: #e8eaed;
+    --border-color: #5f6368;
+    --input-bg-color: #3c4043;
+    --focus-shadow-color: rgba(138, 180, 248, 0.3);
+  }
+}
+
+/* Header container com logo e search bar */
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.5s ease;
+  margin-bottom: 2rem;
+}
+
+.header-container.header-searched {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0; /* ← sem espaço lateral */
+  background-color: var(--filter-bg-color);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100vw; /* ocupa toda a largura da viewport */
+  box-sizing: border-box;
+}
+
+
+/* Animação de redimensionamento da logo */
+.logo {
+  transition: all 0.5s ease;
+  max-width: 40%;
+  width: 100%;
+  height: auto;
+}
+
+/* Quando em modo header compacto */
+.header-searched .logo {
+  max-width: 150px;
+  height: auto;
+}

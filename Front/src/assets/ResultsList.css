@@ -1,0 +1,31 @@
+.results-list {
+    list-style: none;
+    padding: 0;
+}
+
+.results-list-item {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    text-align: left;
+}
+
+.results-list-item h3 {
+    color: #333;
+    margin-top: 0;
+}
+
+.results-list-item p {
+    color: #666;
+}
+
+.results-list-item a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.results-list-item a:hover {
+    text-decoration: underline;
+}
