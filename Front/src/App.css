@@ -36,20 +36,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Filter Toggle Button */
 .filter-toggle-button {
   background-color: var(--primary-color);
@@ -187,4 +173,11 @@
 .header-searched .logo {
   max-width: 150px;
   height: auto;
+}
+
+
+
+mark {
+  background-color: rgb(150, 241, 170);
+  color: black; /* Cor do texto */
 }

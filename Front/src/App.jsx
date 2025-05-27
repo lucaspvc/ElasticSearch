@@ -105,7 +105,6 @@ function App() {
         </div>
       )}
 
-
       {/* Resultados */}
       <ResultsList results={results} hasSearched={hasSearched} />
 
