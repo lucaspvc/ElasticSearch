@@ -1,0 +1,92 @@
+openapi: '3.0.0'
+info:
+  version: '1.0.0'
+  title: 'Sample API'
+  description: Submit Elasticsearch queries
+
+paths:
+  /search:
+    get:
+      summary: 'Submits a query to Elasticsearch'
+      operationId: search
+      tags:
+        - search
+      parameters:
+        - name: q
+          in: query
+          description: query to be submitted
+          schema:
+            type: string
+        - name: p
+          in: query
+          description: page number
+          schema:
+            type: integer
+        - name: cl
+          in: query
+          description: max content length (300, 500, 1000)
+          schema:
+            type: integer
+            enum: [ 150, 300, 500]
+        - name: itemsPerPage
+          in: query
+          description: number of items per page (10, 20, 30)
+          schema:
+             type: integer
+             enum: [ 10, 20, 30 ]
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Results'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Results:
+      type: object
+      properties:
+        totalResults:
+          type: integer
+          format: int64
+        page:
+          type: integer
+          format: int64
+        itemsPerPage:
+          type: integer
+          format: int64
+        resultsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result'
+        suggestions:
+          type: array
+          items:
+            type: string
+          description: "Search suggestions when there are no results"
+    Result:
+      type: object
+      properties:
+        title:
+          type: string
+        url:
+          type: string
+        content:
+          type: string
+        highlightedContent:
+          type: string
+          description: "Content snippet with [BOLD]...[/BOLD] tags for highlighting"
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: A human readable error message
+          type: string
