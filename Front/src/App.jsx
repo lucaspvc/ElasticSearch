@@ -3,7 +3,7 @@ import SearchBar from './assets/SearchBar';
 import ResultsList from './assets/ResultsList';
 import Pagination from './assets/Pagination';
 import './App.css'
-import logo from './assets/images/LogoPrinc-FundoPreto.png'; // ou logo.png, conforme o nome do arquivo
+import logo from './assets/images/LogoPrinc-FundoPreto.png';
 import logoCompacta from './assets/images/LogoPrinc-FundoPreto.png';
 
 function App() {
@@ -14,8 +14,8 @@ function App() {
   const [charLimit, setCharLimit] = useState(300);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [suggestions, setSuggestions] = useState([]);
-  const [hasSearched, setHasSearched] = useState(false); // Novo estado para controlar se já houve busca
-  const [showFilters, setShowFilters] = useState(false); // New state for filter visibility
+  const [hasSearched, setHasSearched] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   const fetchResults = async (query, page) => {
     try {
@@ -24,9 +24,19 @@ function App() {
       setSuggestions([]);
       setHasSearched(true);
 
-      const res = await fetch(
-        `http://localhost:8080/v1/search?q=${query}&p=${page}&cl=${charLimit}&itemsPerPage=${itemsPerPage}`
-      );
+      const res = await fetch('http://localhost:8080/v1/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          q: query,
+          p: page,
+          cl: charLimit,
+          itemsPerPage: itemsPerPage
+        }),
+      });
+
       const data = await res.json();
 
       console.log(data);

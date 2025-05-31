@@ -7,6 +7,7 @@ package com.elasticsearch.search.api.facade;
 
 import com.elasticsearch.search.api.model.Error;
 import com.elasticsearch.search.api.model.Results;
+import com.elasticsearch.search.api.model.SearchRequest;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-05-27T11:02:38.472659500-03:00[America/Sao_Paulo]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-05-31T00:05:06.549673800-03:00[America/Sao_Paulo]")
 
 @Validated
 @Api(value = "search", description = "the search API")
@@ -40,12 +41,9 @@ public interface SearchApi {
     }
 
     /**
-     * GET /search : Submits a query to Elasticsearch
+     * POST /search : Submits a query to Elasticsearch
      *
-     * @param q query to be submitted (optional)
-     * @param p page number (optional)
-     * @param cl max content length (300, 500, 1000) (optional)
-     * @param itemsPerPage number of items per page (10, 20, 30) (optional)
+     * @param searchRequest  (required)
      * @return OK (status code 200)
      *         or Unexpected error (status code 500)
      */
@@ -55,8 +53,9 @@ public interface SearchApi {
         @ApiResponse(code = 500, message = "Unexpected error", response = Error.class) })
     @RequestMapping(value = "/search",
         produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<Results>> search(@ApiParam(value = "query to be submitted") @Valid @RequestParam(value = "q", required = false) String q,@ApiParam(value = "page number") @Valid @RequestParam(value = "p", required = false) Integer p,@ApiParam(value = "max content length (300, 500, 1000)", allowableValues = "150, 300, 500") @Valid @RequestParam(value = "cl", required = false) Integer cl,@ApiParam(value = "number of items per page (10, 20, 30)", allowableValues = "10, 20, 30") @Valid @RequestParam(value = "itemsPerPage", required = false) Integer itemsPerPage) {
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    default CompletableFuture<ResponseEntity<Results>> search(@ApiParam(value = "" ,required=true )  @Valid @RequestBody SearchRequest searchRequest) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

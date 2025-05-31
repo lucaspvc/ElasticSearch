@@ -1,3 +1,5 @@
+import './ResultsList.css';
+
 function ResultsList({ results, hasSearched }) {
   if (!hasSearched) {
     return null;
@@ -8,13 +10,21 @@ function ResultsList({ results, hasSearched }) {
   }
 
   return (
-    <ul>
+    <ul className="results-list">
       {results.map((item, index) => (
-        <li key={index} style={{ marginBottom: '1.5rem' }}>
-          <h3>{item.title}</h3>
-          <p dangerouslySetInnerHTML={{ __html: item.highlightedContent || item.content }} />
-          <a href={item.url} target="_blank" rel="noopener noreferrer">
-            {item.url}
+        <li key={index} className="result-card">
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card-link"
+          >
+            <h3>{item.title}</h3>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: item.highlightedContent || item.content,
+              }}
+            />
           </a>
         </li>
       ))}

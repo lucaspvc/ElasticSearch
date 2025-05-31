@@ -6,34 +6,17 @@ info:
 
 paths:
   /search:
-    get:
+    post:
       summary: 'Submits a query to Elasticsearch'
       operationId: search
       tags:
         - search
-      parameters:
-        - name: q
-          in: query
-          description: query to be submitted
-          schema:
-            type: string
-        - name: p
-          in: query
-          description: page number
-          schema:
-            type: integer
-        - name: cl
-          in: query
-          description: max content length (300, 500, 1000)
-          schema:
-            type: integer
-            enum: [ 150, 300, 500]
-        - name: itemsPerPage
-          in: query
-          description: number of items per page (10, 20, 30)
-          schema:
-             type: integer
-             enum: [ 10, 20, 30 ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
       responses:
         200:
           description: OK
@@ -47,8 +30,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
 components:
   schemas:
+    SearchRequest:
+      type: object
+      properties:
+        q:
+          type: string
+          description: query to be submitted
+        p:
+          type: integer
+          description: page number
+        cl:
+          type: integer
+          enum: [150, 300, 500]
+          description: max content length
+        itemsPerPage:
+          type: integer
+          enum: [10, 20, 30]
+          description: number of items per page
     Results:
       type: object
       properties:
