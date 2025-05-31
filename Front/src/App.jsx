@@ -18,6 +18,11 @@ function App() {
   const [showFilters, setShowFilters] = useState(false);
 
   const fetchResults = async (query, page) => {
+    if (!query.trim()) {
+      alert('Por favor, preencha o campo de busca antes de pesquisar.');
+      return;
+    }
+
     try {
       setCurrentQuery(query);
       setCurrentPage(page);
@@ -75,11 +80,13 @@ function App() {
   return (
     <div className="app-container">
       <div className={`header-container ${hasSearched ? 'header-searched' : ''}`}>
-        <img
-          src={hasSearched ? logoCompacta : logo}
-          alt="Logo"
-          className="logo"
-        />
+        <a href="/">
+          <img
+            src={hasSearched ? logoCompacta : logo}
+            alt="Logo"
+            className="logo"
+          />
+        </a>
         <SearchBar onSearch={fetchResults} />
       </div>
 

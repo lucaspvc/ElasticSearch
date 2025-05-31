@@ -27,6 +27,7 @@
 }
 
 .result-card p {
+  text-align: left;
   margin: 0;
   color: #ffffff;
   font-size: 0.9rem;
@@ -70,4 +71,10 @@
   font-size: 0.9rem;
 }
 
+
+.result-card h3,
+.result-card p,
+.result-card a {
+  text-align: left; /* Redundância para segurança */
+}
 

@@ -42,9 +42,17 @@ public class SearchService {
             var resultsList = hits.stream().map(h -> {
                 String rawContent = h.source().get("content").asText();
                 List<String> realces = h.highlight() != null ? h.highlight().get("content") : null;
-                String highlight = (realces != null && !realces.isEmpty())
-                        ? String.join("", realces)
-                        : null;
+                String highlight;
+
+                if (realces != null && realces.size() > 1) {
+                    // Vários trechos: junta os fragments destacados
+                    highlight = String.join(" ... ", realces);
+                } else {
+                    // Um ou nenhum trecho: destaca manualmente no texto original
+                    String queryTerm = query; // ou parse para múltiplas palavras, se quiser
+                    highlight = rawContent.replaceAll("(?i)(" + java.util.regex.Pattern.quote(queryTerm) + ")", "<mark>$1</mark>");
+                }
+
 
                 return new Result()
                         .content(rawContent)

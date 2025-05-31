@@ -78,12 +78,14 @@ public class EsClient {
                     .size(safeItemsPerPage)
                     .query(matchQuery)
                     .highlight(h -> h
+                            .requireFieldMatch(false)
                             .fields("content", f -> f
                                     .preTags("<mark>")
                                     .postTags("</mark>")
-                                    .numberOfFragments(4)
-                                    .noMatchSize(cl)
-                                    .fragmentSize(cl))
+                                    .fragmentSize(150)        // define o tamanho de cada trecho (ajustável)
+                                    .numberOfFragments(3)     // tenta retornar até 3 trechos
+                                    .noMatchSize(0)           // não retorna conteúdo se não houver match
+                            )
                     ),ObjectNode.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
