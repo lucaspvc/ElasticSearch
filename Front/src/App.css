@@ -178,6 +178,8 @@
 
 
 mark {
-  background-color: rgb(150, 241, 170);
-  color: black; /* Cor do texto */
+  background-color:  #ffffff;
+  color: rgb(0, 0, 0); /* Cor do texto */
+  border-radius: 4px;
+  text-decoration: underline;
 }
