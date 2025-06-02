@@ -5,7 +5,7 @@ import Pagination from './assets/Pagination';
 import './App.css'
 import logo from './assets/images/LogoPrinc-FundoPreto.png';
 import logoCompacta from './assets/images/LogoPrinc-FundoPreto.png';
-
+//nova branch
 function App() {
   const [results, setResults] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
