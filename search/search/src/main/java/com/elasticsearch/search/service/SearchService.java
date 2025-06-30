@@ -7,8 +7,11 @@ import com.elasticsearch.search.domain.EsClient;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,15 +47,52 @@ public class SearchService {
                 List<String> realces = h.highlight() != null ? h.highlight().get("content") : null;
                 String highlight;
 
-                if (realces != null && realces.size() > 1) {
-                    // Vários trechos: junta os fragments destacados
-                    highlight = String.join(" ... ", realces);
-                } else {
-                    // Um ou nenhum trecho: destaca manualmente no texto original
-                    String queryTerm = query; // ou parse para múltiplas palavras, se quiser
-                    highlight = rawContent.replaceAll("(?i)(" + java.util.regex.Pattern.quote(queryTerm) + ")", "<mark>$1</mark>");
+                // --- Extrai termos da query (aspas e termos soltos) ---
+                Pattern quotedPattern = Pattern.compile("\"([^\"]+)\"");
+                Matcher matcher = quotedPattern.matcher(query);
+
+                List<String> quotedTerms = new ArrayList<>();
+                while (matcher.find()) {
+                    quotedTerms.add(matcher.group(1));
                 }
 
+                String cleanedQuery = query;
+                for (String qt : quotedTerms) {
+                    cleanedQuery = cleanedQuery.replace("\"" + qt + "\"", "");
+                }
+
+                List<String> allTerms = new ArrayList<>(quotedTerms);
+                for (String term : cleanedQuery.trim().split("\\s+")) {
+                    if (!term.isBlank()) {
+                        allTerms.add(term);
+                    }
+                }
+                // -------------------------------------------------------
+
+                if (realces != null && !realces.isEmpty()) {
+                    String joined = String.join(" ... ", realces);
+                    String plain = joined.replaceAll("</?mark>", "");
+
+                    if (plain.length() > safeCharLimit) {
+                        plain = plain.substring(0, safeCharLimit);
+                    }
+
+                    for (String term : allTerms) {
+                        plain = plain.replaceAll("(?i)\\b(" + Pattern.quote(term) + ")\\b", "<mark>$1</mark>");
+                    }
+
+                    highlight = plain;
+                } else {
+                    String plain = rawContent.length() > safeCharLimit
+                            ? rawContent.substring(0, safeCharLimit)
+                            : rawContent;
+
+                    for (String term : allTerms) {
+                        plain = plain.replaceAll("(?i)\\b(" + Pattern.quote(term) + ")\\b", "<mark>$1</mark>");
+                    }
+
+                    highlight = plain;
+                }
 
                 return new Result()
                         .content(rawContent)
