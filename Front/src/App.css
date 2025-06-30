@@ -183,3 +183,55 @@ mark {
   border-radius: 4px;
   text-decoration: underline;
 }
+
+
+
+
+
+.custom-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: var(--filter-bg-color);
+  color: var(--text-color);
+  padding: 12px 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  font-size: 0.95rem;
+  z-index: 1000;
+  animation: fadeInOut 4s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 300px;
+  word-wrap: break-word;
+}
+
+.custom-popup::before {
+  content: '⚠️';
+  font-size: 1.2rem;
+}
+
+/* animação */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+
+
+
