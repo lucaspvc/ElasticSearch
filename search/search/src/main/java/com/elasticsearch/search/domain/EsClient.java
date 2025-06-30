@@ -20,7 +20,10 @@ import org.elasticsearch.client.RestClient;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component
@@ -42,7 +45,7 @@ public class EsClient {
         SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
 
         RestClient restClient = RestClient.builder(
-                new HttpHost("localhost", 9200, "https"))
+                        new HttpHost("localhost", 9200, "https"))
                 .setHttpClientConfigCallback(
                         (HttpAsyncClientBuilder httpClientBuilder) -> httpClientBuilder
                                 .setDefaultCredentialsProvider(credentialsProvider)
@@ -55,7 +58,7 @@ public class EsClient {
                 new JacksonJsonpMapper()
         );
 
-        elasticsearchClient = new co.elastic.clients.elasticsearch.ElasticsearchClient(transport);
+        elasticsearchClient = new ElasticsearchClient(transport);
     }
 
     public SearchResponse search(String query, Integer page, Integer cl, Integer itemsPerPage) {
@@ -65,28 +68,60 @@ public class EsClient {
                 : 10;
         int from = safeItemsPerPage * (currentPage - 1);
 
-        Query matchQuery = MatchQuery.of(
-                q -> q
-                        .field("content")
-                        .query(query))._toQuery();
+        // -------------------------
+        // Construção dinâmica da query
+        List<Query> mustQueries = new ArrayList<>();
+        List<Query> shouldQueries = new ArrayList<>();
+
+        // Identifica os termos entre aspas
+        Pattern quotedPattern = Pattern.compile("\"([^\"]+)\"");
+        Matcher matcher = quotedPattern.matcher(query);
+        String cleanedQuery = query;
+
+        while (matcher.find()) {
+            String quotedTerm = matcher.group(1);
+            mustQueries.add(
+                    co.elastic.clients.elasticsearch._types.query_dsl.MatchPhraseQuery.of(
+                            m -> m.field("content").query(quotedTerm)
+                    )._toQuery()
+            );
+            cleanedQuery = cleanedQuery.replace("\"" + quotedTerm + "\"", " ");
+        }
+
+        // Termos restantes (sem aspas)
+        for (String term : cleanedQuery.trim().split("\\s+")) {
+            if (!term.isBlank()) {
+                shouldQueries.add(
+                        MatchQuery.of(m -> m.field("content").query(term))._toQuery()
+                );
+            }
+        }
+
+        Query finalQuery = co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery.of(b -> b
+                .must(mustQueries)
+                .should(shouldQueries)
+                .minimumShouldMatch(String.valueOf(shouldQueries.isEmpty() ? 0 : 1))
+        )._toQuery();
+        // -------------------------
 
         SearchResponse<ObjectNode> response;
         try {
             response = elasticsearchClient.search(s -> s
-                    .index("wikipedia")
-                    .from(from)
-                    .size(safeItemsPerPage)
-                    .query(matchQuery)
-                    .highlight(h -> h
-                            .requireFieldMatch(false)
-                            .fields("content", f -> f
-                                    .preTags("<mark>")
-                                    .postTags("</mark>")
-                                    .fragmentSize(150)        // define o tamanho de cada trecho (ajustável)
-                                    .numberOfFragments(3)     // tenta retornar até 3 trechos
-                                    .noMatchSize(0)           // não retorna conteúdo se não houver match
-                            )
-                    ),ObjectNode.class);
+                            .index("wikipedia")
+                            .from(from)
+                            .size(safeItemsPerPage)
+                            .query(finalQuery)
+                            .highlight(h -> h
+                                    .requireFieldMatch(false)
+                                    .fields("content", f -> f
+                                            .preTags("<mark>")
+                                            .postTags("</mark>")
+                                            .fragmentSize(150)
+                                            .numberOfFragments(3)
+                                            .noMatchSize(0)
+                                    )
+                            ),
+                    ObjectNode.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -96,7 +131,7 @@ public class EsClient {
     public List<String> getSuggestions(String query) {
         try {
             SearchResponse<ObjectNode> response = elasticsearchClient.search(s -> s
-                            .index("wikipedia_new")  // Usando o novo índice
+                            .index("wikipedia_new")
                             .size(0)
                             .suggest(sug -> sug
                                     .text(query)
@@ -123,5 +158,4 @@ public class EsClient {
             throw new RuntimeException("Erro ao obter sugestões de pesquisa", e);
         }
     }
-
 }
