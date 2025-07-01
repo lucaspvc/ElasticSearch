@@ -125,12 +125,13 @@ function App() {
 
       <div className={`header-container ${hasSearched ? 'header-searched' : ''}`}>
         <a href="/">
+
           <img
-            src={hasSearched ? displayPesqLogoSrc : displayMainLogoSrc}
+            src={hasSearched ? displayMainLogoSrc : displayMainLogoSrc}
             alt="Logo"
             className="logo"
           />
-        </a>
+        </a> 
         <div className="search-and-filter-wrapper">
           <SearchBar onSearch={fetchResults} />
 
