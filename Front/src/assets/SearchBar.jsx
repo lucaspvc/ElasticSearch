@@ -6,7 +6,7 @@ export default function SearchBar({ onSearch }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch(query, 1); // sempre começar da página 1
+    onSearch(query, 1); 
   };
 
   return (
@@ -16,9 +16,9 @@ export default function SearchBar({ onSearch }) {
         className="search-input"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Digite sua pesquisa..."
+        placeholder="Enter your search query..."
       />
-      <button type="submit" className="search-button">Pesquisar</button>
+      <button type="submit" className="search-button">Search</button>
     </form>
   );
 }

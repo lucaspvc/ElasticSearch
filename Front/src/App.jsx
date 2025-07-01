@@ -151,7 +151,7 @@ const [showPopup, setShowPopup] = useState(false);
       {/* Sugestões */}
       {hasSearched && results.length === 0 && suggestions.length > 0 && (
         <div className="suggestions-box">
-          <p>No results found for "{currentQuery}". Did you mean:</p>
+          <p> Did you mean:</p>
           <ul>
             {suggestions.map((suggestion, index) => (
               <li key={index}>

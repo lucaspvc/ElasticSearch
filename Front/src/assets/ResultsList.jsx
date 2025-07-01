@@ -6,7 +6,7 @@ function ResultsList({ results, hasSearched }) {
   }
 
   if (!results || results.length === 0) {
-    return <p>Nenhum resultado encontrado.</p>;
+    return <p>No matches found.</p>;
   }
 
   return (
