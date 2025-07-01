@@ -16,20 +16,12 @@ function App() {
   const [suggestions, setSuggestions] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-const [showPopup, setShowPopup] = useState(false);
-
 
   const fetchResults = async (query, page) => {
-   if (!query.trim()) {
-  setErrorMessage('Please fill in the search field before searching.');
-  setShowPopup(true);
-
-  setTimeout(() => setShowPopup(false), 4000);
-
-  return;
-}
-
+    if (!query.trim()) {
+      alert('Por favor, preencha o campo de busca antes de pesquisar.');
+      return;
+    }
 
     try {
       setCurrentQuery(query);
@@ -61,7 +53,7 @@ const [showPopup, setShowPopup] = useState(false);
         setSuggestions(data.suggestions);
       }
     } catch (error) {
-      console.error('Error fetching results:', error);
+      console.error('Erro ao buscar resultados:', error);
     }
   };
 
@@ -87,12 +79,6 @@ const [showPopup, setShowPopup] = useState(false);
 
   return (
     <div className="app-container">
-      {showPopup && (
-  <div className="custom-popup">
-    {errorMessage}
-  </div>
-)}
-
       <div className={`header-container ${hasSearched ? 'header-searched' : ''}`}>
         <a href="/">
           <img
@@ -117,7 +103,7 @@ const [showPopup, setShowPopup] = useState(false);
       {showFilters && (
         <div className="filters">
           <div className="filter-group">
-            <label htmlFor="limitSelect">Character limit per result:</label>
+            <label htmlFor="limitSelect">Limite de caracteres por resultado:</label>
             <select id="limitSelect" value={charLimit} onChange={handleCharLimitChange}>
               <option value={150}>150</option>
               <option value={300}>300</option>
@@ -126,7 +112,7 @@ const [showPopup, setShowPopup] = useState(false);
           </div>
 
           <div className="filter-group">
-            <label htmlFor="itemsPerPageSelect">Items per page:</label>
+            <label htmlFor="itemsPerPageSelect">Itens por página:</label>
             <select id="itemsPerPageSelect" value={itemsPerPage} onChange={handleItemsPerPageChange}>
               <option value={10}>10</option>
               <option value={20}>20</option>
@@ -151,7 +137,7 @@ const [showPopup, setShowPopup] = useState(false);
       {/* Sugestões */}
       {hasSearched && results.length === 0 && suggestions.length > 0 && (
         <div className="suggestions-box">
-          <p>No results found for "{currentQuery}". Did you mean:</p>
+          <p>Nenhum resultado encontrado para "{currentQuery}". Você quis dizer:</p>
           <ul>
             {suggestions.map((suggestion, index) => (
               <li key={index}>
