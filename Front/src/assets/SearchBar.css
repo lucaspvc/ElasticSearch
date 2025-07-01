@@ -6,35 +6,36 @@
     flex-wrap: wrap;
     margin: 1rem auto;
     width: 100%;
-    max-width: 600px;
-  }
-  
-  .search-input {
+    /* Largura máxima aumentada para o estado inicial */
+    max-width: 800px; /* Alterado de 600px para 800px */
+}
+
+.search-input {
     flex: 1;
     padding: 0.6rem 1rem;
     font-size: 1rem;
     border: 1px solid #646464;
     border-radius: 8px;
-    min-width: 240px;
+    /* Largura mínima do input aumentada para o estado inicial */
+    min-width: 350px; /* Alterado de 240px para 300px */
     transition: border-color 0.3s;
-  }
-  
-  .search-input:focus {
+}
+
+.search-input:focus {
     outline: none;
     border-color: #cacaca;
-  }
-  
-  .search-button {
+}
+
+.search-button {
     padding: 0.6rem 1.2rem;
     font-size: 1rem;
     background-color:#6eb800;
-  
     border: hidden;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s;
-  }
-  
-  .search-button:hover {
+}
+
+.search-button:hover {
     background-color: #508501;
-  }
+}

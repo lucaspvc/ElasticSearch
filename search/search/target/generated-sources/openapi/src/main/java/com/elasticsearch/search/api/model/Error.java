@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 /**
  * Error
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-06-30T23:54:11.822124544-03:00[America/Sao_Paulo]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-07-01T03:09:32.588303770-03:00[America/Sao_Paulo]")
 
 public class Error  implements Serializable {
   private static final long serialVersionUID = 1L;
