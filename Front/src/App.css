@@ -7,7 +7,7 @@
 }
 
 .logo {
-  max-width: 40%;
+  max-width: 50%;
   width: 100%;
   height: auto;
 }
@@ -35,8 +35,6 @@
 }
 
 
-
-/* Filter Toggle Button */
 .filter-toggle-button {
   background-color: var(--primary-color);
   color: var(--button-text-color);
@@ -54,7 +52,6 @@
   box-shadow: 0 1px 3px var(--shadow-color);
 }
 
-/* Filters Section */
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -102,16 +99,17 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Theme Variables - Light (default) */
+/* --- Theme Variables - Light (default) --- */
 :root {
-  --primary-color: #4285f4;
-  --primary-hover-color: #3367d6;
+  --primary-color: #6eb800;
+  --primary-hover-color: #508501;
   --button-text-color: #ffffff;
   --filter-bg-color: #f8f9fa;
   --shadow-color: rgba(0, 0, 0, 0.1);
@@ -124,8 +122,8 @@
 /* Dark Theme Overrides */
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary-color: #8ab4f8;
-    --primary-hover-color: #669df6;
+    --primary-color: #6eb800;
+    --primary-hover-color: #508501;
     --button-text-color: #202124;
     --filter-bg-color: #2d2d2d;
     --shadow-color: rgba(0, 0, 0, 0.3);
@@ -136,58 +134,64 @@
   }
 }
 
-/* Header container com logo e search bar */
+/* --- Header container with logo and search bar --- */
 .header-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  transition: all 0.5s ease;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+  padding: 1rem 0;
+  /* Padding on top and bottom */
+  transition: all 0.4s ease;
+  /* A faster, smoother transition */
 }
 
+/* Style when search is active */
 .header-container.header-searched {
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
+  /* Align items to the start */
   align-items: center;
-  padding: 0; /* ← sem espaço lateral */
   background-color: var(--filter-bg-color);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
-  z-index: 100;
-  width: 100vw; /* ocupa toda a largura da viewport */
-  box-sizing: border-box;
-}
-
-
-/* Animação de redimensionamento da logo */
-.logo {
-  transition: all 0.5s ease;
-  max-width: 40%;
   width: 100%;
-  height: auto;
+  padding: 0.75rem 1.5rem;
+  z-index: 100;
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  /* Softer shadow */
 }
 
-/* Quando em modo header compacto */
+/* Base logo style */
+.logo {
+  width: 70%;
+  max-width: 720px;
+  transition: all 0.4s ease;
+  transform-origin: left center;
+  /* Transform from the left side */
+}
+
+/* Logo in compact mode */
 .header-searched .logo {
+  width: 150px;
   max-width: 150px;
-  height: auto;
+  transform: scale(0.9);
+  /* A subtle scale down */
+  margin-right: 2rem;
+  /* Add some space next to the search bar */
 }
 
-
-
+/* Opção 1: Destaque subtil com a cor primária do tema */
 mark {
-  background-color:  #ffffff;
-  color: rgb(0, 0, 0); /* Cor do texto */
-  border-radius: 4px;
-  text-decoration: underline;
+  background-color: transparent; /* Remove o fundo sólido */
+  color: var(--primary-color); /* Usa a cor verde vibrante para o texto */
+  font-weight: 750; /* Deixa o texto um pouco mais negrito para dar ênfase */
 }
 
-
-
-
-
+/* --- Custom Popup --- */
 .custom-popup {
   position: fixed;
   top: 20px;
@@ -213,25 +217,24 @@ mark {
   font-size: 1.2rem;
 }
 
-/* animação */
+/* Animation for popup */
 @keyframes fadeInOut {
   0% {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   10% {
     opacity: 1;
     transform: translateY(0);
   }
+
   90% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     transform: translateY(-10px);
   }
 }
-
-
-
-

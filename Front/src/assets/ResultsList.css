@@ -3,78 +3,84 @@
   margin: 2rem auto;
   padding: 0 1rem;
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .result-card {
-  background-color: #434343;
-  border: 1px solid #000000;
+  background-color: var(--input-bg-color);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 1px 2px var(--shadow-color);
 }
 
 .result-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--shadow-color);
+  transform: translateY(-2px);
 }
-
-.result-card h3 {
-  margin: 0 0 8px 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.result-card p {
-  text-align: left;
-  margin: 0;
-  color: #ffffff;
-  font-size: 0.9rem;
-}
-
-.result-card a {
-  display: inline-block;
-  text-align: left;
-  margin-top: 8px;
-  color: #ffffff;
-  font-size: 0.875rem;
-  text-decoration: none;
-}
-
-
-.no-results {
-  text-align: left;
-  color: #ffffff;
-}
-
 
 .card-link {
   display: block;
   text-decoration: none;
-  color: inherit;
+  color: var(--text-color);
   padding: 16px;
-}
-
-.card-link:hover{
-  text-decoration: none;
+  text-align: left;
 }
 
 .card-link h3 {
   margin: 0 0 8px 0;
   font-size: 1.25rem;
   font-weight: 600;
+  color: var(--text-color);
 }
 
 .card-link p {
   margin: 0;
   font-size: 0.9rem;
+  color: var(--text-color);
+  line-height: 1.5;
 }
 
+.no-results {
+  text-align: left;
+  color: var(--text-color);
+  font-size: 1rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--input-bg-color);
+}
 
+/* Redundância segura para alinhamento */
 .result-card h3,
 .result-card p,
 .result-card a {
-  text-align: left; /* Redundância para segurança */
+  text-align: left;
 }
 
+.card-link h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  transition: font-weight 0.2s ease;
+}
+
+.result-card:hover h3 {
+  font-weight: 670;
+}
+
+
+/* Responsivo opcional */
+@media (max-width: 600px) {
+  .card-link h3 {
+    font-size: 1.1rem;
+  }
+
+  .card-link p {
+    font-size: 0.85rem;
+  }
+}
