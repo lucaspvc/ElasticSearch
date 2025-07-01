@@ -154,8 +154,9 @@ public class EsClient {
                     .limit(5)
                     .collect(Collectors.toList());
 
-        } catch (IOException e) {
-            throw new RuntimeException("Erro ao obter sugestões de pesquisa", e);
+        } catch (Exception e) {
+            return List.of();
         }
     }
+
 }
