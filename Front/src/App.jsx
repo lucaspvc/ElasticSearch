@@ -4,17 +4,11 @@ import ResultsList from './assets/ResultsList';
 import Pagination from './assets/Pagination';
 import './App.css';
 
-// 1. Importe TODAS AS QUATRO VERSÕES DAS LOGOS aqui:
-// Logos para o TEMA ESCURO do sistema (com elementos claros para fundo escuro)
-import logoPrincDark from './assets/images/LogoPrinc-FundoPreto.png'; // Logo Principal para Tema Escuro
-import logoPesqDark from './assets/images/LogoPesq-FundoPreto.png';   // Logo de Pesquisa/Compacta para Tema Escuro
+import logoPrincDark from './assets/images/LogoPrinc-FundoPreto.png';
+import logoPesqDark from './assets/images/LogoPesq-FundoPreto.png';
 
-// Logos para o TEMA CLARO do sistema (com elementos escuros para fundo claro)
-import logoPrincLight from './assets/images/LogoPrinc-FundoBranco.png'; // Logo Principal para Tema Claro (NOVA!)
-import logoPesqLight from './assets/images/LogoPesq-FundoBranco.png';   // Logo de Pesquisa/Compacta para Tema Claro (NOVA!)
-
-// Se você estiver usando o componente Footer separado, mantenha este import
-// import Footer from './Footer';
+import logoPrincLight from './assets/images/LogoPrinc-FundoBranco.png';
+import logoPesqLight from './assets/images/LogoPesq-FundoBranco.png';
 
 function App() {
   const [results, setResults] = useState([]);
@@ -29,39 +23,30 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [showPopup, setShowPopup] = useState(false);
 
-  // 2. Crie dois estados para as SRCs DAS LOGOS ATUALMENTE EXIBIDAS
-  // Inicializamos com as logos do MODO CLARO, pois a maioria dos sistemas inicia assim
   const [displayMainLogoSrc, setDisplayMainLogoSrc] = useState(logoPrincLight);
   const [displayPesqLogoSrc, setDisplayPesqLogoSrc] = useState(logoPesqLight);
 
-
-  // 3. O useEffect agora seleciona o PAR DE LOGOS correto com base no tema do sistema
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
     const updateLogosBasedOnTheme = (e) => {
       if (e.matches) {
-        // Se o tema escuro do sistema estiver ativo (fundo do site será escuro)
-        setDisplayMainLogoSrc(logoPrincDark); // Define a logo principal para o tema escuro
-        setDisplayPesqLogoSrc(logoPesqDark);   // Define a logo de pesquisa para o tema escuro
+        setDisplayMainLogoSrc(logoPrincDark);
+        setDisplayPesqLogoSrc(logoPesqDark);
       } else {
-        // Se o tema claro do sistema estiver ativo (fundo do site será claro)
-        setDisplayMainLogoSrc(logoPrincLight); // Define a logo principal para o tema claro
-        setDisplayPesqLogoSrc(logoPesqLight);   // Define a logo de pesquisa para o tema claro
+        setDisplayMainLogoSrc(logoPrincLight);
+        setDisplayPesqLogoSrc(logoPesqLight);
       }
     };
 
-    // Checagem inicial do tema ao carregar o componente
     updateLogosBasedOnTheme(mediaQuery);
 
-    // Adiciona um listener para quando o tema do sistema mudar dinamicamente
     mediaQuery.addEventListener('change', updateLogosBasedOnTheme);
 
-    // Função de limpeza para remover o listener quando o componente for desmontado
     return () => {
       mediaQuery.removeEventListener('change', updateLogosBasedOnTheme);
     };
-  }, []); // O array de dependências vazio faz com que este efeito rode apenas uma vez ao montar e uma vez ao desmontar
+  }, []);
 
   const fetchResults = async (query, page) => {
     if (!query.trim()) {
@@ -76,7 +61,7 @@ function App() {
       setCurrentPage(page);
       setSuggestions([]);
       setHasSearched(true);
-      setShowFilters(false); // Fecha o dropdown ao buscar
+      setShowFilters(false);
 
       const res = await fetch('http://localhost:8080/v1/search', {
         method: 'POST',
@@ -141,8 +126,6 @@ function App() {
       <div className={`header-container ${hasSearched ? 'header-searched' : ''}`}>
         <a href="/">
           <img
-            // 4. A tag <img> agora usa os estados displayMainLogoSrc e displayPesqLogoSrc
-            // Eles já contêm a logo correta para o tema atual do sistema.
             src={hasSearched ? displayPesqLogoSrc : displayMainLogoSrc}
             alt="Logo"
             className="logo"

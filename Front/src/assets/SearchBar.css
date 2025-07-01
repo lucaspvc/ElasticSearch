@@ -6,8 +6,7 @@
     flex-wrap: wrap;
     margin: 1rem auto;
     width: 100%;
-    /* Largura máxima aumentada para o estado inicial */
-    max-width: 800px; /* Alterado de 600px para 800px */
+    max-width: 800px;
 }
 
 .search-input {
@@ -16,8 +15,7 @@
     font-size: 1rem;
     border: 1px solid #646464;
     border-radius: 8px;
-    /* Largura mínima do input aumentada para o estado inicial */
-    min-width: 350px; /* Alterado de 240px para 300px */
+    min-width: 350px;
     transition: border-color 0.3s;
 }
 
