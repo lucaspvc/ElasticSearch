@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchBar from './assets/SearchBar';
 import ResultsList from './assets/ResultsList';
 import Pagination from './assets/Pagination';
-import './App.css'; // Mantenha o CSS
-import logo from './assets/images/LogoPrinc-FundoPreto.png';
-import logoCompacta from './assets/images/LogoPrinc-FundoPreto.png';
+import './App.css';
+
+// 1. Importe TODAS AS QUATRO VERSÕES DAS LOGOS aqui:
+// Logos para o TEMA ESCURO do sistema (com elementos claros para fundo escuro)
+import logoPrincDark from './assets/images/LogoPrinc-FundoPreto.png'; // Logo Principal para Tema Escuro
+import logoPesqDark from './assets/images/LogoPesq-FundoPreto.png';   // Logo de Pesquisa/Compacta para Tema Escuro
+
+// Logos para o TEMA CLARO do sistema (com elementos escuros para fundo claro)
+import logoPrincLight from './assets/images/LogoPrinc-FundoBranco.png'; // Logo Principal para Tema Claro (NOVA!)
+import logoPesqLight from './assets/images/LogoPesq-FundoBranco.png';   // Logo de Pesquisa/Compacta para Tema Claro (NOVA!)
+
+// Se você estiver usando o componente Footer separado, mantenha este import
+// import Footer from './Footer';
 
 function App() {
   const [results, setResults] = useState([]);
@@ -18,6 +28,40 @@ function App() {
   const [showFilters, setShowFilters] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showPopup, setShowPopup] = useState(false);
+
+  // 2. Crie dois estados para as SRCs DAS LOGOS ATUALMENTE EXIBIDAS
+  // Inicializamos com as logos do MODO CLARO, pois a maioria dos sistemas inicia assim
+  const [displayMainLogoSrc, setDisplayMainLogoSrc] = useState(logoPrincLight);
+  const [displayPesqLogoSrc, setDisplayPesqLogoSrc] = useState(logoPesqLight);
+
+
+  // 3. O useEffect agora seleciona o PAR DE LOGOS correto com base no tema do sistema
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const updateLogosBasedOnTheme = (e) => {
+      if (e.matches) {
+        // Se o tema escuro do sistema estiver ativo (fundo do site será escuro)
+        setDisplayMainLogoSrc(logoPrincDark); // Define a logo principal para o tema escuro
+        setDisplayPesqLogoSrc(logoPesqDark);   // Define a logo de pesquisa para o tema escuro
+      } else {
+        // Se o tema claro do sistema estiver ativo (fundo do site será claro)
+        setDisplayMainLogoSrc(logoPrincLight); // Define a logo principal para o tema claro
+        setDisplayPesqLogoSrc(logoPesqLight);   // Define a logo de pesquisa para o tema claro
+      }
+    };
+
+    // Checagem inicial do tema ao carregar o componente
+    updateLogosBasedOnTheme(mediaQuery);
+
+    // Adiciona um listener para quando o tema do sistema mudar dinamicamente
+    mediaQuery.addEventListener('change', updateLogosBasedOnTheme);
+
+    // Função de limpeza para remover o listener quando o componente for desmontado
+    return () => {
+      mediaQuery.removeEventListener('change', updateLogosBasedOnTheme);
+    };
+  }, []); // O array de dependências vazio faz com que este efeito rode apenas uma vez ao montar e uma vez ao desmontar
 
   const fetchResults = async (query, page) => {
     if (!query.trim()) {
@@ -84,7 +128,6 @@ function App() {
     setShowFilters(!showFilters);
   };
 
-  // Obtenha o ano atual dinamicamente
   const currentYear = new Date().getFullYear();
 
   return (
@@ -98,7 +141,9 @@ function App() {
       <div className={`header-container ${hasSearched ? 'header-searched' : ''}`}>
         <a href="/">
           <img
-            src={hasSearched ? logoCompacta : logo}
+            // 4. A tag <img> agora usa os estados displayMainLogoSrc e displayPesqLogoSrc
+            // Eles já contêm a logo correta para o tema atual do sistema.
+            src={hasSearched ? displayPesqLogoSrc : displayMainLogoSrc}
             alt="Logo"
             className="logo"
           />
@@ -141,10 +186,8 @@ function App() {
         </div>
       </div>
 
-      {/* Resultados */}
       <ResultsList results={results} hasSearched={hasSearched} />
 
-      {/* Paginação */}
       {totalPages > 1 && (
         <Pagination
           currentPage={currentPage}
@@ -166,7 +209,6 @@ function App() {
         </div>
       )}
 
-      {/* Footer discreto e pequeno diretamente aqui */}
       <footer className="app-footer">
         <p>&copy; {currentYear} Eureka. All rights reserved. Developed by Heloisa Pimentel and Lucas Pessoa.</p>
       </footer>

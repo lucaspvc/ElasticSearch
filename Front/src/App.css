@@ -1,9 +1,8 @@
-/* Estilos Base */
 .app-container {
   text-align: center;
-  display: flex; /* Make app-container a flex container */
-  flex-direction: column; /* Arrange children vertically */
-  min-height: 100vh; /* Ensure it takes at least the full viewport height */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .logo-container {
@@ -16,13 +15,11 @@
   height: auto;
 }
 
-/* Classe 'filters' reutilizada para as opções dentro do dropdown e do modal */
 .filters {
   font-size: 0.9rem;
   display: block;
   width: 100%;
   padding: 0;
-  /* Removido padding para ser mais neutro, o modal/dropdown terá seu próprio padding */
   margin-bottom: 0;
   box-shadow: none;
   animation: none;
@@ -144,13 +141,14 @@ mark {
 }
 
 .suggestions-box {
-  margin: 1.5rem auto;
-  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  margin: 1rem auto;
+  padding: 0.5rem 1rem 1rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 4px 10px var(--shadow-color);
   background-color: var(--filter-bg-color);
-  max-width: 600px;
+  width: 70%;
+  max-width: 500px;
   text-align: left;
 }
 
@@ -289,7 +287,6 @@ mark {
   border-bottom: 5px solid var(--button-text-color);
 }
 
-/* Desktop Filters Dropdown (remains absolute) */
 .filters-dropdown {
   position: absolute;
   top: calc(100% + 8px);
@@ -344,7 +341,6 @@ mark {
   min-width: 100px;
 }
 
-/* Media Queries */
 @media (max-width: 768px) {
   .header-container {
     padding: 0.5rem 1rem;
@@ -359,8 +355,8 @@ mark {
   }
 
   .header-searched .logo {
-    width: 100px;
-    max-width: 100px;
+    width: 150px;
+    max-width: 150px;
     margin-right: 1rem;
     margin-bottom: 0;
   }
@@ -376,7 +372,6 @@ mark {
     margin-left: 0;
   }
 
-  /* Desktop filters dropdown still behaves as before */
   .filters-dropdown {
     position: absolute;
     top: calc(100% + 8px);
@@ -389,7 +384,6 @@ mark {
     box-shadow: 0 4px 12px var(--shadow-color);
     border: 1px solid var(--border-color);
     transform: translateY(-10px);
-    /* This needs to be combined below */
     margin-top: 0;
   }
 
@@ -415,39 +409,30 @@ mark {
     flex-direction: column;
     width: 100%;
     max-width: 300px;
-    /* Limite a largura máxima para o conjunto empilhado */
   }
 
-  /* Faz com que o conteúdo interno da barra de busca preencha toda a largura */
   .header-searched .search-bar {
     width: 100%;
-    /* Garante que ela ocupe 100% do max-width de 300px do pai */
     min-width: unset;
     flex-wrap: nowrap;
     margin: 0;
     justify-content: space-between;
-    /* Distribui o espaço entre o input e o botão */
     box-sizing: border-box;
     padding: 0 0.5rem;
-    /* Adiciona um pequeno padding interno para evitar que input/botão colem nas bordas */
   }
 
-  /* Garante que o input preencha o espaço disponível */
   .header-searched .search-input {
     min-width: unset;
     flex: 1;
-    /* Permite que ele cresça e encolha */
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: 0;
   }
 
-  /* Garante que o botão de busca não encolha */
   .header-searched .search-bar .search-button {
     flex-shrink: 0;
     width: auto;
   }
-
 
   .filter-dropdown-container {
     width: 100%;
@@ -468,33 +453,22 @@ mark {
     font-size: 0.9rem;
   }
 
-  /* Centraliza o dropdown em telas menores que 550px */
   .filters-dropdown {
     left: 50%;
-    /* Moves the left edge to the center of the parent */
     right: auto;
-    /* Ensures it's not pulled to the right */
-    /* Combine the existing translateY with the new translateX */
     transform: translateY(-10px) translateX(-50%);
   }
 
-  /* Ensure the .show state also includes the horizontal centering */
   .filters-dropdown.show {
     transform: translateY(0) translateX(-50%);
   }
 }
 
-/* Footer Styles (Sem cores, bordas, ou sombras) */
 .app-footer {
-  margin-top: auto; /* Pushes the footer to the bottom when app-container is flex-column */
-  width: 100%; /* Ensures it spans the full width */
-  padding: 0.5rem 0; /* Minimal vertical padding, no horizontal padding as text is centered */
-  /* Removido background-color */
-  /* Removido border-top */
+  margin-top: auto;
+  width: 100%;
+  padding: 0.5rem 0;
   text-align: center;
-  font-size: 0.75rem; /* Even smaller font size */
-  color: var(--text-color); /* Still uses the text color variable for dark/light mode compatibility */
-  /* Removido box-shadow */
+  font-size: 0.75rem;
+  color: var(--text-color);
 }
-
-/* Removidas as media queries para o footer já que não há sombras/cores para ajustar */
